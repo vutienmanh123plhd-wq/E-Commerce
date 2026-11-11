@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShopSearch — Multimodal Product Search</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">ShopSearch</a>
+    <div class="search" id="search">
+      <form id="search-form" autocomplete="off">
+        <input id="search-input" type="search" placeholder="Search products — try “laptop” or “giày chạy bộ”" aria-label="Search products">
+        <button type="button" id="mic-btn" class="icon-btn" title="Search by voice" aria-label="Search by voice">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z"/></svg>
+        </button>
+        <button type="button" id="camera-btn" class="icon-btn" title="Search by image" aria-label="Search by image">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 7.17 6H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3.17L15 4H9Zm3 4.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"/></svg>
+        </button>
+        <button type="submit" class="primary">Search</button>
+      </form>
+      <p id="search-error" class="field-error" role="alert" hidden></p>
+      <div id="suggestions" class="suggestions" hidden></div>
+    </div>
+  </header>
+
+  <main>
+    <nav id="categories" class="chips categories" aria-label="Categories"></nav>
+    <p id="status" class="status">Loading products…</p>
+    <section id="results" class="grid" aria-live="polite"></section>
+    <div class="more"><button type="button" id="load-more" hidden>Load more</button></div>
+  </main>
+
+  <!-- Voice search dialog -->
+  <dialog id="voice-dialog" class="dialog">
+    <h2>Search by voice</h2>
+    <div id="voice-recording" class="recording">
+      <span class="pulse" aria-hidden="true"></span>
+      <span>Listening… speak your search, then press Stop.</span>
+    </div>
+    <div id="voice-review" hidden>
+      <label for="voice-text">Recognized text — edit if needed</label>
+      <input id="voice-text" type="text">
+      <p class="hint" id="voice-lang"></p>
+    </div>
+    <p id="voice-error" class="field-error" role="alert" hidden></p>
+    <div class="actions">
+      <button type="button" id="voice-cancel">Cancel</button>
+      <button type="button" id="voice-again" hidden>Speak again</button>
+      <button type="button" id="voice-stop" class="primary">Stop</button>
+      <button type="button" id="voice-confirm" class="primary" hidden>Confirm</button>
+    </div>
+  </dialog>
+
+  <!-- Image search dialog -->
+  <dialog id="image-dialog" class="dialog wide">
+    <h2>Search by image</h2>
+    <div id="image-upload">
+      <label class="dropzone" for="image-file">
+        <strong>Choose a product photo</strong>
+        <span>JPG or PNG, up to 10 MB — or drop it here</span>
+      </label>
+      <input id="image-file" type="file" accept="image/jpeg,image/png" hidden>
+      <button type="button" id="image-camera">Use camera</button>
+      <video id="camera-video" autoplay playsinline hidden></video>
+      <button type="button" id="camera-capture" class="primary" hidden>Capture</button>
+    </div>
+    <div id="image-select" hidden>
+      <p class="hint">Click a detected object or drag a box around the product you want. No box = whole image.</p>
+      <div class="canvas-wrap"><canvas id="image-canvas"></canvas></div>
+      <div id="object-chips" class="chips"></div>
+    </div>
+    <p id="image-error" class="field-error" role="alert" hidden></p>
+    <div class="actions">
+      <button type="button" id="image-cancel">Cancel</button>
+      <button type="button" id="image-confirm" class="primary" hidden>Confirm selection</button>
+    </div>
+  </dialog>
+
+  <!-- Product detail -->
+  <dialog id="product-dialog" class="dialog wide">
+    <div id="product-detail"></div>
+    <div class="actions"><button type="button" id="product-close">Close</button></div>
+  </dialog>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

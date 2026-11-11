@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+sqlalchemy>=2
+numpy
+pillow
+python-multipart
+httpx
+pytest
+requests
+imageio-ffmpeg
